@@ -1,0 +1,12 @@
+.DS_Store
+build/
+Vendor/
+*.xcuserstate
+xcuserdata/
+docs/*.pdf
+*.mobileprovision
+*.p12
+*.p8
+.env
+.env.*
+.secrets/

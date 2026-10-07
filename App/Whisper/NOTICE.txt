@@ -1,0 +1,28 @@
+Adder Whisper resources and preprocessing attribution
+
+vocab.json and mel_filters_80.bin are copied without modification from
+zetic-ai/ZETIC_Melange_apps, commit
+ed665f6688157330b178087913dbf217c8d00e94:
+  apps/VoxScribe/Flutter/assets/vocab.json
+  apps/VoxScribe/Flutter/assets/mel_filters_80.bin
+https://github.com/zetic-ai/ZETIC_Melange_apps
+
+WhisperLogMel.swift is a Swift/Accelerate adaptation of that repository's
+apps/VoxScribe/Flutter/lib/services/log_mel.dart. The adaptation replaces
+Dart arithmetic loops with Accelerate dot products and pads recordings to
+the deployed model's fixed 30-second input shape.
+
+The Zetic samples are distributed under Apache License 2.0; the full license
+is included as ZeticSamples-LICENSE. Adder's MIT license does not replace
+the applicable Apache-2.0 terms for those resources and derived code.
+
+Whisper and its tokenizer originate with OpenAI:
+https://github.com/openai/whisper
+OpenAI's Whisper repository is MIT licensed; its notice and full license
+are included as OpenAI-Whisper-LICENSE. The Hugging Face openai/whisper-tiny
+model card separately declares Apache-2.0:
+https://huggingface.co/openai/whisper-tiny
+
+The Melange encoder and decoder models are downloaded at runtime using the
+participant's Melange credentials. Model weights and the proprietary
+Melange SDK are not relicensed as MIT by this application repository.

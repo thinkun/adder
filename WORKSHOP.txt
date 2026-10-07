@@ -1,0 +1,62 @@
+Native iPhone workshop app (working name Adder; final name undecided)
+
+Implementation
+- SwiftUI native app, exact ZeticMLange SDK 1.11.0 via Swift Package Manager.
+- Liquid zetic/LFM2.5-1.2B-Instruct version 1 interprets action fields.
+- Liquid zetic/LFM2.5-VL-450M version 1 understands photos at Preview.
+- Vision inference is implemented but awaits physical-device verification.
+- Zetic OpenAI/whisper-tiny-encoder and whisper-tiny-decoder version 1 transcribe locally.
+- Whisper uses bundled vocabulary and 80-bin filterbank; Accelerate is linked.
+- A development PAT is supplied through a hidden Mac dialog and an ignored
+  private build configuration. No token entry is needed on the phone.
+- Review and Save are separate; no Contacts/Calendar/Reminders writes before Save.
+- Australian mobile normalization, explicit spelled email precedence, strict dates.
+- Contact notes include meeting context plus actual capture timestamp/timezone.
+- Event creation can include a separate preparation task in Apple Reminders.
+- A reminder is due at the same local clock time, N days earlier; preview shows it.
+- Event duration is required and visibly chosen before saving.
+- Recent saved people and history are held locally for follow-up context.
+
+Device setup
+1. Connect/unlock the iPhone and enable Settings > Privacy & Security > Developer Mode.
+   Complete the restart and confirm Developer Mode after reboot.
+2. Open Adder.xcodeproj. Sign into Xcode Settings > Accounts.
+3. Select Adder target > Signing & Capabilities > your Personal Team.
+4. Build/run on the physical phone. Simulator does not verify Melange execution.
+5. Create a development Melange PAT on your Mac at
+   https://melange.zetic.ai/settings?tab=pat. Run
+   python3 scripts/configure-local-key.py and paste into the hidden Mac dialog.
+6. Rebuild/install. Local models load automatically while online; initial downloads take time.
+
+Repeatable demo
+1. Tap SAMPLE Contact, then Interpret. Review Jack Black, jackgrey@gmail.com,
+   +61411234759, meeting context, and actual meeting date. Save deliberately.
+2. Open Apple Contacts and visually check the contact and its Notes.
+3. Speak a similar note; check Whisper's transcript, then Interpret and review.
+4. Tap SAMPLE Event or speak the catch-up request. Review resolved Wednesday,
+   3 PM, Hexwizard Cafe, timezone; choose a duration. Save deliberately.
+5. Open Calendar and Reminders to confirm the event and separate preparation task.
+6. Disable Wi-Fi and cellular, then repeat model interpretation/transcription.
+
+Verified at development time
+- Signed arm64 build compiled, installed, and launched on the connected iPhone.
+- User confirmed contact creation worked and model startup completed.
+- Existing GGUF paths/sizes survived app deployment.
+- Actual SDK 1.11.0 Swift interfaces used, not old tutorial APIs.
+- Both Whisper model versions exist and are READY in Melange.
+- Whisper log-mel DSP matched reference values; silence preprocessing checked.
+- Tests/run-extraction-checks.sh validates actual rules without touching phone stores.
+
+Still requires physical verification
+- First Whisper transcription quality and latency.
+- Contact Notes contents, visual extraction quality, and offline inference.
+- Contact Notes persistence, calendar/reminder persistence and permissions.
+- Offline operation after downloads; speed and speech accuracy are not yet measured.
+
+Build command used when Xcode scheme destinations were unavailable
+xcodebuild -project Adder.xcodeproj -target Adder -sdk iphoneos -configuration Debug CODE_SIGNING_ALLOWED=NO SYMROOT=build/Products build
+
+Unsigned app is under build/Products/Debug-iphoneos/Adder.app.
+An unsigned app cannot be installed on a regular iPhone; Apple signing is required.
+
+Workshop skill valid through October 6, 2026, 23:59:59 America/Los_Angeles.
